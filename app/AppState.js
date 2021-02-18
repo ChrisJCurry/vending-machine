@@ -1,41 +1,33 @@
 import Value from "./Models/Value.js"
+import Item from "./Models/Item.js"
 import { EventEmitter } from "./Utils/EventEmitter.js"
 import { isValidProp } from "./Utils/isValidProp.js"
+
 
 class AppState extends EventEmitter {
   /** @type {Value[]} */
   values = []
   userCurrency = 1000.00
-  items = {
-    burger: {
-      name: "burger",
-      image: "https://via.placeholder.com/150",
-      cost: 4.99
-    },
-    drink: {
-      name: "drink",
-      image: "https://via.placeholder.com/150",
-      cost: 3.23
-    },
-    fries: {
-      name: "fries",
-      image: "https://via.placeholder.com/150",
-      cost: 2.05
-    },
-    chips: {
-      name: "chips",
-      image: "https://via.placeholder.com/150",
-      cost: 1.99
-    },
-    milkshake: {
-      name: "milkshake",
-      image: "https://via.placeholder.com/150",
-      cost: 1.75
-    }
-  }
-
+  items = [new Item({
+    name: "Last Bought", imgUrl: 'https://via.placeholder.com/150', cost: 5.99
+  }),
+  new Item({
+    name: "Burger", imgUrl: 'https://via.placeholder.com/150', cost: 3.99
+  }),
+  new Item({
+    name: "Fries", imgUrl: 'https://via.placeholder.com/150', cost: 1.99
+  }),
+  new Item({
+    name: "Drink", imgUrl: 'https://via.placeholder.com/150', cost: 1.99
+  }),
+  new Item({
+    name: "Milkshake", imgUrl: 'https://via.placeholder.com/150', cost: 2.99
+  }),
+  new Item({
+    name: "Chips", imgUrl: 'https://via.placeholder.com/150', cost: 1.99
+  })]
   itemsBought = []
-  lastItemBought = "burger"
+  lastItemBought = "tomato"
 }
 
 export const ProxyState = new Proxy(new AppState(), {

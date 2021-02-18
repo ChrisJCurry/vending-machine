@@ -7,59 +7,41 @@ import { vendingService } from "../Services/VendingService.js";
 function _draw() {
   let items = ProxyState.items;
   let template = ''
-
-  for(let food in items) {
-      let newItem = new Item(items[food])
-      //console.log("Food: ", items[food])
-      template += newItem.Template;
-      //console.log(template)
-      document.getElementById("app").innerHTML = /*html*/`
-        ${template}
-    `
-    if(Object.keys(items).indexOf(food) == (Object.keys(items).length-1)) {
-        for(let foodItem in items) {
-            console.log(ProxyState.lastItemBought, items[food].name)
-            if(ProxyState.lastItemBought == items[food].name) {
-                console.log("whoa!")
-                    template += newItem.Template
-                    document.getElementById("app").innerHTML = `
-                    ${template}
-                    `
-                    return;
-            } else {
-                //console.log("boo")
-            }
-        }
-       
-    }
-    
-  }
+  let firstIndex = items.find(Boolean)
   let boughtItems = ProxyState.itemsBought
-  for(let bI in boughtItems) {
-      let bought =  new Item(boughtItems[bI])
-      template += bought.Template;
-      
-      document.getElementById("items-bought").innerHTML = /*html*/`
+  for (let bI in boughtItems) {
+    let bought = new Item(boughtItems[bI])
+    template += bought.BoughtTemplate;
+
+    document.getElementById("items-bought").innerHTML = /*html*/`
         ${template}
     `
   }
-    
+  vendingService.showVendingItems()
 }
+
+
 
 //Public
 export default class VendingController {
   constructor() {
     ProxyState.on("items", _draw);
     ProxyState.on("userCurrency", _draw);
+    ProxyState.on("itemsBought", _draw);
     _draw();
   }
 
   showVendingItems() {
-      vendingService.showVendingItems()
+    vendingService.showVendingItems()
   }
 
-  buyItem(foodName, foodCost) {
-    vendingService.buyItem(foodName, foodCost)
+  buyItem(id) {
+    vendingService.buyItem(id)
+  }
+
+  complete() {
+    vendingService.complete()
   }
 
 }
+
